@@ -1,0 +1,96 @@
+// =============================================================================
+//
+// Waybar configuration
+//
+// Configuration reference: https://github.com/Alexays/Waybar/wiki/Configuration
+//
+// =============================================================================
+
+{
+    // -------------------------------------------------------------------------
+    // Global configuration
+    // -------------------------------------------------------------------------
+
+    "layer": "top",
+
+    "position": "top",
+
+    // If height property would be not present, it'd be calculated dynamically
+    "height": 46,
+
+    "modules-left": [
+        "hyprland/workspaces"
+    ],
+    "modules-center": [
+        "hyprland/window"
+    ],
+    "modules-right": [
+        "tray",
+        "wireplumber",
+        "clock",
+        "network",
+    ],
+
+
+    // -------------------------------------------------------------------------
+    // Modules
+    // -------------------------------------------------------------------------
+
+    "hyprland/workspaces": {
+      "format": "{icon}: {windows} ",
+      "format-window-separator": "   |   ",
+      "show-special": true,
+      "window-rewrite-default": "󰘔",
+      "window-rewrite": {
+        "class<firefox>": "", // Windows whose classes are "firefox"
+        "class<firefox> title<.*github.*>": "", // Windows whose class is "firefox" and title contains "github". Note that "class" always comes first.
+        "kitty": "",
+        "code": "󰨞",
+        "telegram": "",
+        "nemo": "󱧶",
+        "nekoray": "󰄛",
+    	},
+    },
+
+    "hyprland/window": {
+        "format": "    {title}",
+        "separate-outputs": true,
+        "rewrite": {
+            "(.*) — Mozilla Firefox": " $1"
+        }
+    },
+
+    "custom/window_title": {
+        "exec": "hyprctl activewindow | grep title | cut -d '-' -f2- | sed 's/^[^—]*— *//'",
+        "interval": 1
+    },
+
+    "wireplumber": {
+        "format": "{volume}% {icon}",
+        "format-muted": "   ",
+        "on-click": "pavucontrol",
+        "on-click-right": "pactl set-sink-mute @DEFAULT_SINK@ toggle",
+        "format-icons": ["  ", "  ", "  "]
+    },
+
+    "clock": {
+        "interval": 60,
+        "format": " {:%H:%M}",
+        "max-length": 25
+    },
+
+    "network": {
+        "interval": 5,
+        "format-wifi": "   {essid} ({signalStrength}%)", // Icon: wifi
+        "format-ethernet": "󰈀  Ethernet: {bandwidthTotalBytes}", // Icon: ethernet
+        "format-disconnected": "⚠  Disconnected",
+        "tooltip-format": "{ifname}: {ipaddr}",
+        "on-click": "kitty -e nmtui"
+    },
+
+    "tray": {
+        "icon-size": 15,
+        "spacing": 10
+    }
+
+}
